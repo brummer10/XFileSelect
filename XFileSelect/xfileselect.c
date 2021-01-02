@@ -53,18 +53,22 @@ int main (int argc, char ** argv)
     char *filter = NULL;
     int x = 0;
     int c = 0;
+    int l = 0;
 
     static char usage[] = "usage: %s \n"
     "[-p path] optional set a path to open\n"
     "[-f filter] optional set a file filter\n"
+    "[-l light] optional set a light color theme\n"
     "[-x ] open response file with xdg-open\n";
 
-    while ((c = getopt(argc, argv, "p:f:lx?")) != -1) {
+    while ((c = getopt(argc, argv, "p:f:lxl?")) != -1) {
         switch (c) {
             break;
             case 'p': path = optarg;
             break;
             case 'f': filter = optarg;
+            break;
+            case 'l': l = 1;
             break;
             case 'x': x = 1;
             break;
@@ -77,6 +81,7 @@ int main (int argc, char ** argv)
     Xputty app;
     main_init(&app);
     Widget_t *w = create_window(&app, DefaultRootWindow(app.dpy), 0, 0, 1, 1);
+    if (l) set_light_theme(&app);
     if (x) w->data = 1;
     w->func.dialog_callback = dialog_response;
     open_file_dialog(w,path,filter);
