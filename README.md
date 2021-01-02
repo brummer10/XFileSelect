@@ -1,7 +1,7 @@
 # XFileSelect
 A simple file select dialog 
 
-![File-selector](https://github.com/brummer10/Xputty/raw/master/examples/File-selector.png)
+![File-selector](https://github.com/brummer10/XFileSelect/raw/master/XFileSelect.png)
 
 ## Features
 
