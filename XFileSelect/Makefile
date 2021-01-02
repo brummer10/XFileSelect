@@ -1,12 +1,12 @@
 
 
-	LIB_DIR := ../Xputty/Build/
+	LIB_DIR := ../libxputty/libxputty/
 	HEADER_DIR := $(LIB_DIR)include/
 
 	# include path for library headers
 	INCLUDES := -I. -I$(HEADER_DIR) 
 	# link flags to dynamic link cairo and X11 (default)
-	LDFLAGS += -fPIC `pkg-config --static --cflags --libs cairo x11` -lm
+	LDFLAGS += -fPIC `pkg-config --cflags --libs cairo x11` -lm
 
 	BLUE = "\033[1;34m"
 	RED =  "\033[1;31m"
