@@ -6,7 +6,9 @@
 	# include path for library headers
 	INCLUDES := -I. -I$(HEADER_DIR) 
 	# link flags to dynamic link cairo and X11 (default)
-	LDFLAGS += -fPIC `pkg-config --cflags --libs cairo x11` -lm
+	LDFLAGS += -fPIC -Wl,-z,noexecstack -Wl,--no-undefined `pkg-config --cflags --libs cairo x11` -lm
+	CXXFLAGS += -O2 -D_FORTIFY_SOURCE=2 -Wall -fstack-protector 
+	DEBUG_CXXFLAGS += -g -D DEBUG
 
 	BLUE = "\033[1;34m"
 	RED =  "\033[1;31m"
@@ -20,6 +22,9 @@
 
 all: $(EXEC_FILES) 
 
+debug: CXXFLAGS = $(DEBUG_CXXFLAGS) 
+debug: all
+
 clean:
 	rm -f $(XFILESELCT_OBJ) $(EXEC_FILES)
 
@@ -32,6 +37,6 @@ $(XFILESELCT_OBJ): $(XFILESELCT_SOURCES) $(HEADER_DIR)*.h
 	$(CC) -c $(patsubst %.o,%.c,$@) -o $@  $(INCLUDES) $(LDFLAGS)
 
 $(EXEC_FILES): $(XFILESELCT_OBJ)
-	$(CC) -Wall $(patsubst %,%.c,$@) -L. $(LIB_DIR)libxputty.a -o $@  $(INCLUDES) $(LDFLAGS)
+	$(CC) $(CXXFLAGS) -Wall $(patsubst %,%.c,$@) -L. $(LIB_DIR)libxputty.a -o $@  $(INCLUDES) $(LDFLAGS)
 
 

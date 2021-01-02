@@ -33,7 +33,12 @@ static void dialog_response(void *w_, void* user_data) {
         char * command = NULL;
         asprintf(&command, "xdg-open '%s'",*(const char**)user_data);
         assert(command);
-        if (system(NULL)) system(command);
+        if (system(NULL)) {
+            int ret = system(command);
+            if (ret == -1) {
+                fprintf(stderr, "Fail to execute xdg-open\n");
+            }
+        }
         free(command);
         command = NULL;
     }
